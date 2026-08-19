@@ -173,10 +173,13 @@
   left: 6%;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   .hero__word,
-  .hero__plate { /* Oculta todos os plates decorativos de uma vez no mobile */
-    display: none;
+  .hero__plate,
+  .hero__plate--a, 
+  .hero__plate--b, 
+  .hero__plate--c {
+    display: none !important;
   }
 }
 
@@ -703,9 +706,20 @@
   color: var(--accent);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .pricing-table-wrap {
-    padding: var(--space-md);
+    margin-inline: calc(var(--container-pad) * -1);
+    padding-inline: var(--container-pad);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .pricing-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; 
+    padding-bottom: var(--space-sm);
+    margin: 0; 
   }
 }
 
