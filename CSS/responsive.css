@@ -304,3 +304,18 @@
     overflow-wrap: anywhere;
   }
 }
+/* =========================================================
+   CORREÇÕES FORÇADAS PARA MOBILE (Android/iOS)
+   ========================================================= */
+@media (max-width: 768px) {
+    .hero__plate,
+  .hero__word {
+    display: none !important;
+  }
+  .navbar__inner {
+    padding-right: 20px !important;
+  }
+    .navbar .icon-btn {
+    margin-left: 15px !important;
+  }
+}
