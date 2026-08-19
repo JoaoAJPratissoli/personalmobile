@@ -126,7 +126,7 @@
 
 @media (max-width: 1024px) {
   .navbar__inner {
-    min-height: 70px;
+    min-height: 74px;
   }
 
   .nav-links {
@@ -148,7 +148,7 @@
 
 @media (max-width: 768px) {
   .navbar__inner {
-    min-height: 66px;
+    min-height: 70px;
   }
 
   .navbar.is-open {
