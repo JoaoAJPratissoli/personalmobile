@@ -175,8 +175,7 @@
 
 @media (max-width: 720px) {
   .hero__word,
-  .hero__plate--b,
-  .hero__plate--c {
+  .hero__plate { /* Oculta todos os plates decorativos de uma vez no mobile */
     display: none;
   }
 }
@@ -1962,5 +1961,16 @@ body::after {
   .method-card,
   .experience__item {
     transform: none !important;
+  }
+}
+/* =========================================================
+   AJUSTES EXTRAS PARA MOBILE (Telas menores)
+   ========================================================= */
+@media (max-width: 768px) {
+    .navbar .icon-btn {
+    margin-left: 12px; 
+  }
+      .navbar__inner {
+    padding-right: var(--space-md, 16px);
   }
 }
