@@ -40,27 +40,16 @@
     --space-2xl: 3.5rem;
   }
 
-  .nav-links,
   .navbar__actions .btn {
     display: none;
   }
-
-  .nav-toggle {
-    display: block;
+  .nav-links {
+    gap: 12px;
   }
-
-  .navbar.is-open .nav-links {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--bg);
-    border-bottom: 1px solid var(--line);
-    padding: var(--space-lg) var(--container-pad);
-    gap: var(--space-md);
+  
+  .nav-links a {
+    font-size: 0.65rem; 
+    padding-block: var(--space-3xs);
   }
 
   .hero {
