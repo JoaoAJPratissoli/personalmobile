@@ -319,3 +319,19 @@
     margin-left: 15px !important;
   }
 }
+/* =========================================================
+   AJUSTES MOBILE - NAVBAR (Android/iOS)
+   ========================================================= */
+@media (max-width: 768px) {
+  /* Garante que os botões (Lua e Hambúrguer) tenham espaço entre si */
+  .navbar__actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important; 
+  }
+
+  /* Desgruda o menu da borda direita da tela do celular */
+  .navbar__inner {
+    padding-right: 20px !important;
+  }
+}
