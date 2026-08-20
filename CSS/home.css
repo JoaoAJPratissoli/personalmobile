@@ -43,6 +43,7 @@
 
 .hero__content {
   position: relative;
+  z-index: 2; /* Crucial: Protege o texto para não ser engolido pelo neon */
   width: 100%;
   padding-bottom: var(--space-2xl);
 }
@@ -193,19 +194,15 @@
   z-index: 1;
   will-change: transform;
 }
-/* Forma orgânica atrás do retrato (Transformada em Aura suave) */
+/* Neon marrom claro atrás do retrato */
 .hero__portrait-blob {
   position: absolute;
-  inset: -20% -25%; 
+  inset: -25% -25%; /* Expande levemente a área da luz */
   z-index: -1;
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--accent) 65%, transparent),
-    color-mix(in srgb, var(--accent-2) 65%, transparent)
-  );
-  border-radius: 44% 56% 60% 40% / 50% 45% 55% 50%;
-  opacity: 0.6;
-  filter: blur(60px); 
+  background: #a65d37; /* Nova cor do neon: Marrom claro / acobreado */
+  border-radius: 50%; /* Mantém o formato circular mais limpo */
+  opacity: 0.65; /* Intensidade do brilho */
+  filter: blur(65px); /* Desfoque intenso para criar o efeito Neon */
   animation: heroBlobMove 14s ease-in-out infinite alternate;
 }
 
@@ -224,6 +221,35 @@
   z-index: 2;
   width: 100%;
   padding-bottom: var(--space-2xl);
+}
+@media (max-width: 900px) {
+  .hero__portrait {
+    top: 6%;
+    right: 5%;
+    width: clamp(150px, 22vw, 220px);
+    height: clamp(190px, 28vw, 280px);
+  }
+}
+
+@media (max-width: 768px) {
+  /* Configuração para o mobile: imagem atrás do texto */
+  .hero__portrait {
+    display: block !important; 
+    position: absolute;
+    top: 10%; 
+    right: 0;
+    width: 85vw; 
+    height: 55vw; 
+    z-index: 0; 
+  }
+
+  .hero__content {
+    padding-top: 45vw; 
+  }
+  
+  .hero__portrait-blob {
+    inset: -35% -20%;
+  }
 }
 /* ---------- Navegação rápida no hero (sem navbar fixa) ---------- */
 .hero__quicklinks {
