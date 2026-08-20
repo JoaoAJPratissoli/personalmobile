@@ -185,7 +185,12 @@
 }
 
 /* ---------- Foto do profissional em destaque no hero ---------- */
+
+/* Variáveis do efeito: fáceis de ajustar depois */
 .hero__portrait {
+  --portrait-blob: #cf8f65;  /* marrom claro — cor da camada sólida atrás e do neon */
+  --neon-strength: 1;        /* 0 = neon desligado, 1 = intensidade normal */
+
   position: absolute;
   top: 17%;
   right: 19%;
@@ -193,36 +198,60 @@
   height: clamp(340px, 33vw, 620px);
   z-index: 1;
   will-change: transform;
-  
-  /* 1. A Forma: Cor de fundo e contorno sólidos marrom claro */
-  background-color: #cf8f65; /* Fundo sólido marrom claro */
-  border: 3px solid #cf8f65; /* Contorno sólido */
-  border-radius: var(--radius-lg);
-  
-  /* Linha quase encostando na imagem (4px de distância) */
-  padding: 4px; 
-  
-  /* 2. O Neon: Mais escuro que o interior da forma para dar contraste */
-  box-shadow: 
-    0 0 15px 4px rgba(110, 48, 15, 0.85),  /* Neon forte e escuro colado na borda */
-    0 0 45px 12px rgba(110, 48, 15, 0.6),  /* Brilho médio espalhando */
-    0 0 80px 25px rgba(110, 48, 15, 0.3);  /* Luz suave dissipando no fundo escuro */
+}
+
+/* 1. A "camada de baixo": forma sólida e ovalada que aparece ao redor da foto,
+      como se fosse um buraco na página revelando essa segunda camada.
+      Recuo simétrico nos 4 lados = foto fica centralizada dentro da forma. */
+.hero__portrait::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: -10%;
+  left: -14%;
+  width: 128%;
+  height: 120%;
+  border-radius: 50%;
+  background: var(--portrait-blob); /* cor sólida e chapada, sem degradê */
+  pointer-events: none;
+}
+
+/* 2. O Neon: brilho da mesma forma, colado atrás, contrastando com o fundo escuro.
+      2 camadas em vez de 3, e blur máximo menor: efeito quase idêntico, mais barato de renderizar. */
+.hero__portrait::after {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  top: -10%;
+  left: -14%;
+  width: 128%;
+  height: 120%;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: var(--neon-strength);
+  box-shadow:
+    0 0 20px 4px color-mix(in srgb, var(--portrait-blob) 75%, transparent),
+    0 0 55px 16px color-mix(in srgb, var(--portrait-blob) 40%, transparent);
 }
 
 /* Apague qualquer regra .hero__portrait-blob que tiver sobrado no seu código */
 
 .hero__portrait img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
-  border-radius: calc(var(--radius-lg) - 4px); /* Acompanha a curva da borda */
+  border-radius: var(--radius-lg); /* Sem moldura: o próprio recorte da foto */
   object-fit: cover;
   object-position: top center;
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.55);
   transition: transform var(--dur-slow) var(--ease);
 }
 
 .hero__portrait:hover img {
   transform: scale(1.02);
 }
+
 
 .hero__content {
   position: relative;
@@ -258,12 +287,9 @@
     width: 85vw; 
     height: 55vw; 
     z-index: 0; /* Imagem fica no fundo */
-    
+
     /* Neon sutilmente ajustado para telas pequenas para não ofuscar o texto */
-    box-shadow: 
-      0 0 10px 3px rgba(110, 48, 15, 0.85),  
-      0 0 35px 10px rgba(110, 48, 15, 0.6), 
-      0 0 60px 15px rgba(110, 48, 15, 0.3); 
+    --neon-strength: 0.7;
   }
 
   .hero__content {
@@ -432,10 +458,6 @@
   height: 100%;
   object-fit: cover;
   transition: transform var(--dur-slow) var(--ease);
-}
-
-.service-card:hover img {
-  transform: scale(1.06);
 }
 
 .service-card::after {
@@ -1103,18 +1125,6 @@
 
 .service-card {
   min-height: 560px;
-  box-shadow: var(--shadow-soft);
-  transition:
-    transform var(--dur-med) var(--ease),
-    border-color var(--dur-med) var(--ease),
-    box-shadow var(--dur-med) var(--ease);
-}
-
-.service-card:hover {
-  z-index: 10;
-  transform: scale(1.05);
-  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
-  box-shadow: 0 28px 55px -28px rgba(0,0,0,.65);
 }
 
 .service-card__body {
@@ -1517,8 +1527,8 @@ body::after {
   position: relative;
   z-index: 1;
   isolation: isolate;
-  transform: translateY(0) rotate(0deg);
-  transition: transform .65s var(--ease), border-color .45s ease, box-shadow .65s var(--ease), z-index .65s var(--ease);
+  transform: translateY(0);
+  transition: transform .9s var(--ease), border-color .6s ease, box-shadow .9s var(--ease), z-index .9s var(--ease);
 }
 
 .service-card:nth-child(2) { transform: translateY(34px); }
@@ -1536,29 +1546,30 @@ body::after {
 }
 
 .service-card:hover::before { transform: translateX(120%); }
-.service-card:hover,
-.service-card:nth-child(2):hover,
-.service-card:nth-child(3):hover {
+
+/* Deslize elegante: sobe devagar e continua, sem scale nem rotação — sensação minimalista */
+.service-card:hover {
   z-index: 10;
-  transform: scale(1.05);
-  border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
-  box-shadow: 0 45px 80px -25px rgba(0,0,0,.8);
+  transform: translateY(-16px);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  box-shadow: 0 45px 80px -30px rgba(0,0,0,.55);
 }
 
-.service-card:nth-child(2):hover { rotate: .35deg; }
+.service-card:nth-child(2):hover { transform: translateY(18px); }
+.service-card:nth-child(3):hover { transform: translateY(-6px); }
 
 .service-card img {
-  transition: transform 1s var(--ease), filter .8s var(--ease);
+  transition: transform 1.1s var(--ease), filter .9s var(--ease);
 }
 
 .service-card:hover img {
-  transform: scale(1.09);
-  filter: saturate(1.08) contrast(1.04);
+  transform: scale(1.03);
+  filter: saturate(1.05) contrast(1.02);
 }
 
 .service-card__body {
   transform: translateY(8px);
-  transition: transform .55s var(--ease);
+  transition: transform .7s var(--ease);
 }
 
 .service-card:hover .service-card__body { transform: translateY(0); }
@@ -1986,21 +1997,11 @@ body::after {
 }
 
 
-/* Tilt 3D ativado pelo JS */
-.service-card,
+/* Tilt 3D ativado pelo JS (não se aplica aos service-card — esses usam o deslize elegante) */
 .plan-card,
 .method-card,
 .experience__item {
   transform: perspective(1100px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-}
-.service-card:nth-child(2) { transform: perspective(1100px) translateY(34px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); }
-.service-card:nth-child(3) { transform: perspective(1100px) translateY(10px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); }
-
-@media (max-width: 1024px) {
-  .service-card:nth-child(2),
-  .service-card:nth-child(3) {
-    transform: perspective(1100px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

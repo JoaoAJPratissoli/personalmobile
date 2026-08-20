@@ -155,12 +155,23 @@
 
   /* Luz suave acompanhando o cursor em telas grandes */
   if (!reducedMotion && window.matchMedia('(pointer: fine)').matches) {
-    let pointerTimer;
+    let mouseX = 0;
+    let mouseY = 0;
+    let mouseTicking = false;
+
+    const applyMouseLight = () => {
+      root.style.setProperty('--mouse-x', `${mouseX}px`);
+      root.style.setProperty('--mouse-y', `${mouseY}px`);
+      mouseTicking = false;
+    };
+
     window.addEventListener('pointermove', (event) => {
-      clearTimeout(pointerTimer);
-      root.style.setProperty('--mouse-x', `${event.clientX}px`);
-      root.style.setProperty('--mouse-y', `${event.clientY}px`);
-      pointerTimer = setTimeout(() => {}, 40);
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      if (!mouseTicking) {
+        window.requestAnimationFrame(applyMouseLight);
+        mouseTicking = true;
+      }
     }, { passive: true });
   }
 
@@ -188,7 +199,7 @@
 
 /* Tilt 3D sutil nos elementos interativos */
 if (!reducedMotion && window.matchMedia('(pointer: fine)').matches) {
-  document.querySelectorAll('.service-card, .plan-card, .experience__item, .method-card').forEach((card) => {
+  document.querySelectorAll('.plan-card, .experience__item, .method-card').forEach((card) => {
     let frame = null;
 
     card.addEventListener('pointermove', (event) => {
