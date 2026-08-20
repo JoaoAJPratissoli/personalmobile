@@ -62,8 +62,12 @@
 .navbar__inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: var(--space-md);
   padding-block: var(--space-sm);
+}
+
+.navbar__cta {
+  order: 2;
 }
 
 .brand {
@@ -122,6 +126,8 @@
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+  order: 1;
+  margin-left: auto;
 }
 
 /* Toggle de tema */

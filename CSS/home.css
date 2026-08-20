@@ -189,8 +189,6 @@
 /* Variáveis do efeito: fáceis de ajustar depois */
 .hero__portrait {
   --portrait-blob: var(--accent); /* mesma cor dos botões do site */
-  --portrait-neon: color-mix(in srgb, var(--accent) 40%, #ffcf8f 60%); /* laranja claro, tipo luz de LED */
-  --neon-strength: 1; /* 0 desliga o neon, 1 é o padrão */
 
   position: absolute;
   top: 17%;
@@ -203,37 +201,20 @@
 
 /* A "camada de baixo": forma sólida e ovalada que aparece ao redor da foto,
    como se fosse um buraco na página revelando essa segunda camada.
-   Recuo simétrico nos 4 lados = foto fica centralizada dentro da forma. */
+   Tamanho e proporção fixos (não são mais % da caixa da foto), então o oval
+   fica igual em qualquer resolução de monitor — só a foto muda de tamanho. */
 .hero__portrait::before {
   content: '';
   position: absolute;
   z-index: -1;
-  top: -10%;
-  left: -14%;
-  width: 128%;
-  height: 120%;
+  top: 50%;
+  left: 50%;
+  width: clamp(360px, 36vw, 660px);
+  aspect-ratio: 1.12 / 1;
+  transform: translate(-50%, -50%);
   border-radius: 50%;
   background: var(--portrait-blob); /* cor sólida e chapada, sem degradê */
   pointer-events: none;
-}
-
-/* O "LED": brilho grande e difuso vazando atrás da foto, como o backlight
-   ambiente das TVs modernas — várias camadas de blur suaves em laranja claro. */
-.hero__portrait::after {
-  content: '';
-  position: absolute;
-  z-index: -2;
-  top: -10%;
-  left: -14%;
-  width: 128%;
-  height: 120%;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: var(--neon-strength);
-  box-shadow:
-    0 0 40px 10px color-mix(in srgb, var(--portrait-neon) 65%, transparent),
-    0 0 90px 30px color-mix(in srgb, var(--portrait-neon) 40%, transparent),
-    0 0 160px 55px color-mix(in srgb, var(--portrait-neon) 22%, transparent);
 }
 
 /* Apague qualquer regra .hero__portrait-blob que tiver sobrado no seu código */
@@ -257,7 +238,7 @@
 
 .hero__content {
   position: relative;
-  z-index: 2; /* Texto principal sempre à frente do neon */
+  z-index: 2; /* Texto principal sempre à frente da forma */
   width: 100%;
   padding-bottom: var(--space-2xl);
 }
@@ -290,9 +271,6 @@
     width: auto;
     height: 60vw;
     z-index: 0;
-
-    /* Neon sutilmente ajustado para telas pequenas para não ofuscar o texto */
-    --neon-strength: 0.75;
   }
 
   /* O texto começa dentro da foto (eyebrow + primeira linha do título)

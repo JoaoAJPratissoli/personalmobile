@@ -40,17 +40,57 @@
     --space-2xl: 3.5rem;
   }
 
-  .navbar__actions .btn {
-    padding: 0.6rem 1rem;
+  /* Logo | Agendar (centralizado) | Tema + Hambúrguer */
+  .navbar__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: var(--space-sm);
+  }
+
+  .navbar__cta {
+    order: 0; /* reseta o order do desktop — aqui a ordem já vem certa pela posição no HTML */
+    justify-self: center;
+    padding: 0.6rem 1.1rem;
     font-size: 0.65rem;
+    white-space: nowrap;
   }
+
+  .navbar__actions {
+    order: 0; /* reseta o order/margin do desktop — o grid já cuida do posicionamento */
+    margin-left: 0;
+    justify-self: end;
+    gap: var(--space-2xs);
+  }
+
+  /* Links viram um menu dropdown, escondido até abrir o hambúrguer */
   .nav-links {
-    gap: 12px;
+    display: none;
   }
-  
+
+  .navbar.is-open .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: var(--space-md) var(--container-pad) var(--space-lg);
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+
   .nav-links a {
-    font-size: 0.65rem; 
-    padding-block: var(--space-3xs);
+    font-size: var(--fs-small);
+    padding-block: var(--space-2xs);
+  }
+
+  /* Hambúrguer volta a aparecer no mobile */
+  .nav-toggle {
+    display: grid;
+    place-items: center;
   }
 
   .hero {
