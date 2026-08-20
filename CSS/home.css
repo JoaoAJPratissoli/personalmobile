@@ -261,22 +261,28 @@
 }
 
 @media (max-width: 768px) {
-  /* Foto: cheia à direita, com um pequeno respiro à esquerda, logo abaixo da navbar fixa */
+  /* A foto deixa de ser "absolute" (por isso ficava atrás da navbar — elementos
+     absolutos ignoram o padding do pai). Agora é um bloco normal, empilhado,
+     com o mesmo visual do desktop: caixa arredondada + forma oval atrás. */
   .hero__portrait {
     display: block !important;
-    position: absolute;
-    top: 0;
-    left: 6%;
-    right: 0;
-    width: auto;
-    height: 60vw;
-    z-index: 0;
+    position: relative;
+    width: min(72vw, 340px);
+    aspect-ratio: 3 / 4;
+    height: auto;
+    margin-inline: auto;
+    margin-bottom: var(--space-lg);
   }
 
-  /* O texto começa dentro da foto (eyebrow + primeira linha do título)
-     e a segunda linha ("DUARTE") cruza a base dela — o resto flui normal por baixo */
   .hero__content {
-    padding-top: 30vw;
+    padding-top: 0;
+  }
+
+  /* Sobreposição sutil: só a primeira linha do título cruza a base da foto */
+  .hero__title {
+    position: relative;
+    z-index: 2;
+    margin-top: -2.25rem;
   }
 }
 /* ---------- Navegação rápida no hero (sem navbar fixa) ---------- */

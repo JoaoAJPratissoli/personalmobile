@@ -94,7 +94,8 @@
   }
 
   .hero {
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     padding-top: 5.5rem;
   }
 
@@ -201,7 +202,7 @@
   }
 
   .hero {
-    min-height: 760px;
+    min-height: auto;
   }
 
   .hero__content {
