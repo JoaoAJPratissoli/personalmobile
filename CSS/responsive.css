@@ -53,7 +53,7 @@
   }
 
   .hero {
-    align-items: flex-end;
+    align-items: flex-start;
     padding-top: 5.5rem;
   }
 
