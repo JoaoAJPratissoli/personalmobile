@@ -191,30 +191,32 @@
   right: 19%;
   width: clamp(300px, 30vw, 460px);
   height: clamp(340px, 33vw, 620px);
-  z-index: 1; /* Mantém a foto atrás do conteúdo no desktop */
+  z-index: 1;
   will-change: transform;
+  
+  /* 1. A Forma: Cor de fundo e contorno sólidos marrom claro */
+  background-color: #cf8f65; /* Fundo sólido marrom claro */
+  border: 3px solid #cf8f65; /* Contorno sólido */
+  border-radius: var(--radius-lg);
+  
+  /* Linha quase encostando na imagem (4px de distância) */
+  padding: 4px; 
+  
+  /* 2. O Neon: Mais escuro que o interior da forma para dar contraste */
+  box-shadow: 
+    0 0 15px 4px rgba(110, 48, 15, 0.85),  /* Neon forte e escuro colado na borda */
+    0 0 45px 12px rgba(110, 48, 15, 0.6),  /* Brilho médio espalhando */
+    0 0 80px 25px rgba(110, 48, 15, 0.3);  /* Luz suave dissipando no fundo escuro */
 }
 
-/* Neon marrom claro atrás do retrato */
-.hero__portrait-blob {
-  position: absolute;
-  inset: -25%; /* Expande a área da luz em todas as direções */
-  z-index: -1;
-  background: #c46d3b; /* Ajuste para um marrom claro mais iluminado */
-  border-radius: 50%; /* Mantém o formato circular perfeito */
-  opacity: 0.7; /* Intensidade do brilho */
-  filter: blur(80px); /* Desfoque alto para criar o efeito Neon */
-}
+/* Apague qualquer regra .hero__portrait-blob que tiver sobrado no seu código */
 
-/* Restaura o visual da foto que estava faltando no CSS */
 .hero__portrait img {
   width: 100%;
   height: 100%;
-  border-radius: var(--radius-lg);
+  border-radius: calc(var(--radius-lg) - 4px); /* Acompanha a curva da borda */
   object-fit: cover;
   object-position: top center;
-  border: 1px solid rgba(255,255,255,0.1); /* Borda sutil como no mockup */
-  box-shadow: var(--shadow-soft);
   transition: transform var(--dur-slow) var(--ease);
 }
 
@@ -224,7 +226,7 @@
 
 .hero__content {
   position: relative;
-  z-index: 2; /* Garante que o texto fique à frente do neon */
+  z-index: 2; /* Texto principal sempre à frente do neon */
   width: 100%;
   padding-bottom: var(--space-2xl);
 }
@@ -247,76 +249,25 @@
 }
 
 @media (max-width: 768px) {
-  /* Configuração para o mobile: imagem atrás do texto */
+  /* Configuração para o mobile: Idêntica ao segundo arquivo de referência */
   .hero__portrait {
     display: block !important; 
     position: absolute;
-    top: 15%; /* Ajusta o espaçamento do topo */
-    right: 0;
-    width: 80vw; /* Ajusta a largura para não vazar a tela */
-    height: 60vw; /* Deixa a foto num formato agradável no celular */
-    z-index: 0; /* Coloca a foto atrás do texto (z-index 2) */
-  }
-
-  /* Oculta o anel original (caso ele exista no HTML) para não sujar o mobile */
-  .hero__portrait-ring {
-      display: none;
-  }
-
-  .hero__content {
-    padding-top: 50vw; /* Empurra o texto para ele se sobrepor graciosamente com a parte inferior da foto */
-  }
-  
-  .hero__portrait-blob {
-    inset: -20%; /* Reduz a expansão do neon no mobile para não estourar a tela */
-    filter: blur(50px);
-    opacity: 0.85; /* Reforça o brilho atrás do texto no celular */
-  }
-}
-
-@keyframes heroBlobMove {
-  0% {
-    border-radius: 44% 56% 60% 40% / 50% 45% 55% 50%;
-    transform: rotate(0deg) scale(1);
-  }
-  100% {
-    border-radius: 58% 42% 40% 60% / 45% 55% 45% 55%;
-    transform: rotate(8deg) scale(1.05);
-  }
-}
-.hero__content {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  padding-bottom: var(--space-2xl);
-}
-@media (max-width: 900px) {
-  .hero__portrait {
-    top: 6%;
-    right: 5%;
-    width: clamp(150px, 22vw, 220px);
-    height: clamp(190px, 28vw, 280px);
-  }
-}
-
-@media (max-width: 768px) {
-  /* Configuração para o mobile: imagem atrás do texto */
-  .hero__portrait {
-    display: block !important; 
-    position: absolute;
-    top: 10%; 
+    top: 12%; 
     right: 0;
     width: 85vw; 
     height: 55vw; 
-    z-index: 0; 
+    z-index: 0; /* Imagem fica no fundo */
+    
+    /* Neon sutilmente ajustado para telas pequenas para não ofuscar o texto */
+    box-shadow: 
+      0 0 10px 3px rgba(110, 48, 15, 0.85),  
+      0 0 35px 10px rgba(110, 48, 15, 0.6), 
+      0 0 60px 15px rgba(110, 48, 15, 0.3); 
   }
 
   .hero__content {
-    padding-top: 45vw; 
-  }
-  
-  .hero__portrait-blob {
-    inset: -35% -20%;
+    padding-top: 48vw; /* Faz o texto cruzar perfeitamente a base da foto */
   }
 }
 /* ---------- Navegação rápida no hero (sem navbar fixa) ---------- */
