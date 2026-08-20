@@ -188,8 +188,9 @@
 
 /* Variáveis do efeito: fáceis de ajustar depois */
 .hero__portrait {
-  --portrait-blob: #cf8f65;  /* marrom claro — cor da camada sólida atrás e do neon */
-  --neon-strength: 1;        /* 0 = neon desligado, 1 = intensidade normal */
+  --portrait-blob: var(--accent); /* mesma cor dos botões do site */
+  --portrait-neon: color-mix(in srgb, var(--accent) 40%, #ffcf8f 60%); /* laranja claro, tipo luz de LED */
+  --neon-strength: 1; /* 0 desliga o neon, 1 é o padrão */
 
   position: absolute;
   top: 17%;
@@ -200,9 +201,9 @@
   will-change: transform;
 }
 
-/* 1. A "camada de baixo": forma sólida e ovalada que aparece ao redor da foto,
-      como se fosse um buraco na página revelando essa segunda camada.
-      Recuo simétrico nos 4 lados = foto fica centralizada dentro da forma. */
+/* A "camada de baixo": forma sólida e ovalada que aparece ao redor da foto,
+   como se fosse um buraco na página revelando essa segunda camada.
+   Recuo simétrico nos 4 lados = foto fica centralizada dentro da forma. */
 .hero__portrait::before {
   content: '';
   position: absolute;
@@ -216,8 +217,8 @@
   pointer-events: none;
 }
 
-/* 2. O Neon: brilho da mesma forma, colado atrás, contrastando com o fundo escuro.
-      2 camadas em vez de 3, e blur máximo menor: efeito quase idêntico, mais barato de renderizar. */
+/* O "LED": brilho grande e difuso vazando atrás da foto, como o backlight
+   ambiente das TVs modernas — várias camadas de blur suaves em laranja claro. */
 .hero__portrait::after {
   content: '';
   position: absolute;
@@ -230,8 +231,9 @@
   pointer-events: none;
   opacity: var(--neon-strength);
   box-shadow:
-    0 0 20px 4px color-mix(in srgb, var(--portrait-blob) 75%, transparent),
-    0 0 55px 16px color-mix(in srgb, var(--portrait-blob) 40%, transparent);
+    0 0 40px 10px color-mix(in srgb, var(--portrait-neon) 65%, transparent),
+    0 0 90px 30px color-mix(in srgb, var(--portrait-neon) 40%, transparent),
+    0 0 160px 55px color-mix(in srgb, var(--portrait-neon) 22%, transparent);
 }
 
 /* Apague qualquer regra .hero__portrait-blob que tiver sobrado no seu código */
@@ -278,22 +280,25 @@
 }
 
 @media (max-width: 768px) {
-  /* Configuração para o mobile: Idêntica ao segundo arquivo de referência */
+  /* Foto: cheia à direita, com um pequeno respiro à esquerda, logo abaixo da navbar fixa */
   .hero__portrait {
-    display: block !important; 
+    display: block !important;
     position: absolute;
-    top: 12%; 
+    top: 0;
+    left: 6%;
     right: 0;
-    width: 85vw; 
-    height: 55vw; 
-    z-index: 0; /* Imagem fica no fundo */
+    width: auto;
+    height: 60vw;
+    z-index: 0;
 
     /* Neon sutilmente ajustado para telas pequenas para não ofuscar o texto */
-    --neon-strength: 0.7;
+    --neon-strength: 0.75;
   }
 
+  /* O texto começa dentro da foto (eyebrow + primeira linha do título)
+     e a segunda linha ("DUARTE") cruza a base dela — o resto flui normal por baixo */
   .hero__content {
-    padding-top: 48vw; /* Faz o texto cruzar perfeitamente a base da foto */
+    padding-top: 30vw;
   }
 }
 /* ---------- Navegação rápida no hero (sem navbar fixa) ---------- */
